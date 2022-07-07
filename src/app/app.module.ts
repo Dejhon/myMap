@@ -4,13 +4,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
 
+
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent
+    MapComponent,
+   
+  
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+
+
   ],
   providers: [],
   bootstrap: [AppComponent]
