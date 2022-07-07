@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { MapComponent } from './map/map.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MapService } from './map.service';
 
 
 
@@ -17,10 +19,12 @@ import { MapComponent } from './map/map.component';
   ],
   imports: [
     BrowserModule,
-
+    HttpClientModule
 
   ],
-  providers: [],
+  providers: [
+    MapService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
