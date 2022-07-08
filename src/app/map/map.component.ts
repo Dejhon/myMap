@@ -35,7 +35,7 @@ export class MapComponent implements AfterViewInit {
       });
 
       tiles.addTo(this.map);
-      const marker = L.marker([17.97024, -76.86722])
+      const marker = L.marker([this.lat, this.lon])
       marker.addTo(this.map)
     })
 
