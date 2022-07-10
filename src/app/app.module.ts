@@ -10,13 +10,17 @@ import { MapService } from './map.service';
 import { RatingComponent } from './rating/rating.component';
 import { NgxStarRatingModule } from 'ngx-star-rating';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatIconModule} from '@angular/material/icon';
+import { NewratingComponent } from './newrating/newrating.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
-    RatingComponent
+    RatingComponent,
+    NewratingComponent
    
   
   ],
@@ -25,7 +29,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     NgxStarRatingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatIconModule
 
   ],
   providers: [
