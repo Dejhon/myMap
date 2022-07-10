@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
+import { MapService } from '../map.service';
 import * as L from 'leaflet';
-import {Geocoder} from 'leaflet-control-geocoder';
-import 'esri-leaflet';
 
 @Component({
   selector: 'app-map',
@@ -9,43 +8,42 @@ import 'esri-leaflet';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements AfterViewInit {
-  private map:any;
+  private map: any;
+  private data: any = [];
+  lat: any;
+  lon: any;
 
-  constructor() { }
 
-  ngAfterViewInit(): void{
-        this.initMap();
-  }
+  constructor(private mapService: MapService) { }
+
 
   private initMap(): void {
-  // Latitude and longitude of Jamaica
-  var map = L.map('map').setView([18.18, -77.4], 10);
+    this.mapService.sendGetRequest().subscribe((data: any[]) => {
+      this.data = data
+      this.lat = this.data.data[0].latitude
+      this.lon = this.data.data[0].longitude
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
+      this.map = L.map('map', {
+        center: [this.lat, this.lon],
+        zoom: 10
+      });
 
-  var searchControl = L.esri.Geocoding.geosearch({
-    position: 'topright',
-    placeholder: 'Enter your address',
-    useMapBounds: false,
-    providers: [L.esri.Geocoding.arcgisOnlineProvider({
-      apikey: "AAPK12edeacac8b347b29e1ea68144493367HPBWLFkCBvKLNbs-mGw226gaErV2lgrs0AV8u5arx1X6hHDQ1qfcplKfdwLAZ5Qy", // I Generated this API key from - https://developers.arcgis.com
-      nearby: {
-        lat: 18.18,
-        lng: -77.4
-      }
-    })]
-  }).addTo(this.map);
+      const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        minZoom: 3,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      });
 
-  var results = L.layerGroup().addTo(this.map);
-  searchControl.on('results', function (data:any) {
-    results.clearLayers();
-    for (var i = data.results.length - 1; i >= 0; i--) {
-      results.addLayer(L.marker(data.results[i].latlng));
-    }
-  });
- }
+      tiles.addTo(this.map);
+      const marker = L.marker([this.lat, this.lon])
+      marker.addTo(this.map)
+    })
+
+
+  }
+
+  ngAfterViewInit(): void {
+    this.initMap();
+  }
+
 }
-
-
